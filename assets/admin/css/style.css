@@ -1,5 +1,83 @@
+/*
+    Color palet from: https://compilezero.medium.com/dark-mode-ui-design-the-definitive-guide-part-1-color-53dcfaea5129
+*/
+:root {
+    --dark: #121212;
+    --mid: #424242;
+    --light: #757575;
+    --white: #fff;
+    --primary: #303F9F;
+    --secondary: #BDBDBD;
+    --confirm: #00897B;
+    --warning: #303F9F;
+    --error: #C62828;
+    --help: #673AB7;
 
+    --accent: #243B53;
+    --accent-dark: #102A43;
+    --accent-light: #627D98;
+
+    --darken: brightness(90%);
+    --lighten: brightness(110%);
+    --hover-effect: filter 0.3s ease-in-out;
+
+    --content-width: 1200px;
+}
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 body {
-    background: #332727;
-    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    background: var(--dark);
+    color: var(--white);
+    font-size: 18px;
+}
+
+.container {
+    width: var(--content-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.login-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-container .login-form {
+    border: 1px solid var(--mid);
+    padding: 1.5rem;
+}
+.login-container .login-form form {
+    display: flex;
+    flex-direction: column;
+    row-gap: .5rem;
+}
+.login-container .login-form form input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid var(--accent-dark);
+    padding: 5px 10px;
+    padding-left: 5px;
+    color: var(--white);
+    font-size: 1em;
+    transition: border-bottom-color 200ms ease-in-out;
+}
+.login-container .login-form form input:focus {
+    border-bottom-color: var(--accent);
+}
+.login-container .login-form form input[type="submit"] {
+    background-color: var(--accent-dark);
+    border-bottom: none;
+    cursor: pointer;
+    transition: background-color 200ms ease-in-out;
+}
+.login-container .login-form form input[type="submit"]:hover {
+    background-color: var(--accent);
 }
