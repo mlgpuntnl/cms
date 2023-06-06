@@ -9,13 +9,5 @@
     "dev": "encore dev",
     "watch": "encore dev --watch",
     "build": "encore production --progress"
-  },
-  "devDependencies": {
-    "@symfony/webpack-encore": "^4.3.0",
-    "webpack-notifier": "^1.15.0"
-  },
-  "dependencies": {
-    "@hotwired/stimulus": "^3.2.1",
-    "@hotwired/stimulus-webpack-helpers": "^1.0.1"
   }
 }
