@@ -11,6 +11,7 @@ use Timo\Cms\Cli\CliHandler;
 use Timo\Cms\Cli\CommandProvider;
 use Timo\Cms\Controllers\AuthController;
 use Timo\Cms\Controllers\PageController;
+use Timo\Cms\Enums\AppEnv;
 use Timo\Cms\Extensions\Plates\EntrypointResolver;
 use Timo\Cms\Models\AuthModel;
 use Timo\Cms\Util\Config;
@@ -22,7 +23,8 @@ $containerBuilder->addDefinitions([
     Config::class => function (ContainerInterface $c) {
         return new Config(
             dirname(__DIR__) . '/templates',
-            dirname(__DIR__) . '/public'
+            dirname(__DIR__) . '/public',
+            AppEnv::from($_ENV['APP_ENV'])
         );
     },
     CommandProvider::class => function (ContainerInterface $c) {
@@ -50,7 +52,9 @@ $containerBuilder->addDefinitions([
         ");
     },
     EntrypointResolver::class => function (ContainerInterface $c) {
-        return new EntrypointResolver($c->get(Config::class));
+        return new EntrypointResolver(
+            $c->get(Config::class)
+        );
     },
     Engine::class => function (ContainerInterface $c) {
         $engine = new Engine($c->get(Config::class)->templatesDir);

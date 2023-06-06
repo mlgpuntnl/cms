@@ -2,12 +2,13 @@
   "name": "timo.gg",
   "version": "1.0.0",
   "description": "",
-  "author": "",
+  "author": "Timo",
   "license": "ISC",
   "scripts": {
-    "dev-server": "encore dev-server",
-    "dev": "encore dev",
-    "watch": "encore dev --watch",
-    "build": "encore production --progress"
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vite": "^4.3.9"
   }
 }

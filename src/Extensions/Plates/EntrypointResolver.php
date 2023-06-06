@@ -7,15 +7,23 @@ namespace Timo\Cms\Extensions\Plates;
 use League\Plates\Engine;
 use League\Plates\Extension\ExtensionInterface;
 use stdClass;
+use Timo\Cms\Enums\AppEnv;
 use Timo\Cms\Util\Config;
 
 class EntrypointResolver implements ExtensionInterface
 {
-    private ?stdClass $entrypoint = null;
+    private ?string $entrypoint = null;
+    private string $baseUrl = '';
+    private ?stdClass $manifest = null;
+    private array $scripts = [];
+    private array $styles = [];
     public mixed $template;
 
     public function __construct(private Config $config)
     {
+        if ($this->config->appEnv === AppEnv::DEVELOPMENT) {
+            $this->baseUrl = 'http://localhost:' . $_ENV['APP_PORT'] . '/';
+        }
     }
 
     public function register(Engine $engine)
@@ -27,41 +35,90 @@ class EntrypointResolver implements ExtensionInterface
 
     public function loadScripts(): string
     {
-        $this->asserEntrypointLoaded();
-        $scripts = '';
-        foreach ($this->entrypoint->js as $script) {
-            $scripts .= '<script src="' . $script . '" defer></script>' . PHP_EOL;
+        $this->assertEntrypointLoaded();
+        if ($this->config->appEnv === AppEnv::DEVELOPMENT) {
+            return '<script type="module" src="' . $this->baseUrl . $this->entrypoint . '"></script>';
         }
-        return $scripts;
+        return $this->parseScripts();
     }
 
     public function loadStyles(): string
     {
-        $this->asserEntrypointLoaded();
-        $stylesheets = '';
-        foreach ($this->entrypoint->css as $stylesheet) {
-            $stylesheets .= '<link rel="stylesheet" href="' . $stylesheet . '"> ' . PHP_EOL;
+        $this->assertEntrypointLoaded();
+        if ($this->config->appEnv === AppEnv::DEVELOPMENT) {
+            return '';
         }
-        return $stylesheets;
+        return $this->parseStyles();
     }
 
     public function loadEntryPoint(string $entrypoint): void
     {
-        $file = $this->config->publicDir . '/build/entrypoints.json';
-        if (!file_exists($file)) {
-            throw new EntrypointResolverException('Cannot find entrypoints.json file');
+        $this->entrypoint = $entrypoint;
+        if ($this->config->appEnv === AppEnv::DEVELOPMENT) {
+            return;
         }
-        $entrypoints = json_decode(file_get_contents($file));
-        if ($entrypoints === null) {
-            throw new EntrypointResolverException('Cannot parse entrypoints.json');
+        $manifestFile = $this->config->publicDir . '/dist/manifest.json';
+        if (!file_exists($manifestFile)) {
+            throw new EntrypointResolverException('Cannot find manifest file');
         }
-        if (!property_exists($entrypoints->entrypoints, $entrypoint)) {
-            throw new EntrypointResolverException("Cannot find entrypoint: $entrypoint");
-        }
-        $this->entrypoint = $entrypoints->entrypoints->{$entrypoint};
+        $this->manifest = json_decode(file_get_contents($manifestFile));
+        $this->assertValidEntrypoint();
+        $this->manifestAssets($entrypoint);
     }
 
-    private function asserEntrypointLoaded()
+    private function manifestAssets(string $chunkName): void
+    {
+        if (!isset($this->manifest, $chunkName)) {
+            throw new EntrypointResolverException("Cannot find chunk: $chunkName in manifest");
+        }
+        $chunk = $this->manifest->{$chunkName};
+
+        if (isset($chunk->imports)) {
+            foreach ($chunk->imports as $importChunk) {
+                $this->manifestAssets($importChunk);
+            }
+        }
+
+        if (isset($chunk->css)) {
+            foreach ($chunk->css as $css) {
+                $this->styles[] = $css;
+            }
+        }
+        $this->scripts[] = $chunk->file;
+    }
+
+    private function parseScripts(): string
+    {
+        $output = '';
+        foreach ($this->scripts as $script) {
+            $output .= '<script type="module" src="/dist/' . $script . '"></script>' . PHP_EOL;
+        }
+        return $output;
+    }
+
+    private function parseStyles(): string
+    {
+        $output = '';
+        foreach ($this->styles as $stylesheet) {
+            $output .= '<link rel="stylesheet" href="/dist/' . $stylesheet . '"/>' . PHP_EOL;
+        }
+        return $output;
+    }
+
+    private function assertValidEntrypoint(): void
+    {
+        if (!isset($this->manifest->{$this->entrypoint})) {
+            throw new EntrypointResolverException("Cannot find entrypoint: {$this->entrypoint} in manifest");
+        }
+        if (
+            !isset($this->manifest->{$this->entrypoint}->isEntry) ||
+            $this->manifest->{$this->entrypoint}->isEntry !== true
+        ) {
+            throw new EntrypointResolverException("{$this->entrypoint} is not a valid entrypoint");
+        }
+    }
+
+    private function assertEntrypointLoaded(): void
     {
         if ($this->entrypoint === null) {
             throw new EntrypointResolverException('No entrypoint is loaded.');
