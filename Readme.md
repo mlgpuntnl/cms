@@ -5,7 +5,7 @@ Just a cms
 ### Prerequisites
 Make sure you have installed the following programs:
 - [Docker](https://www.docker.com/) (or [Podman](https://podman.io/))
-- [NodeJS & npm](https://nodejs.org/en)
+- [Bun](https://bun.sh/) (or [NodeJS & npm](https://nodejs.org/en))
 ### Evnoirment variables
 - Copy the `.env.example` file and rename it to `.env`.
 - Fill the `.env` file with the desired variables
@@ -18,6 +18,9 @@ docker-compose build
 ```
 Setup asset bundeling & hot reloads:
 ```
+bun install
+
+# for npm & nodejs:
 npm install
 ```
 
@@ -28,6 +31,10 @@ docker-compose up
 ```
 Asset bundeling & hot reloads:
 ```
+bun run dev
+
+# for npm & nodejs:
+# remove `bunx --bun ` from the scripts in package.json
 npm run dev
 ```
 
