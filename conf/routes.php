@@ -13,12 +13,14 @@ return function (App $app) {
     // Global middleware
     $app->add(new SessionMiddleware());
     // Routes
-    $app->get('/', [PageController::class, 'home']);
+    $app->get('/', [ PageController::class, 'home' ]);
 
     // Admin login page
-    $app->get('/admin/login/', [AuthController::class, 'loginPage']);
+    $app->get('/admin/login/', [ AuthController::class, 'loginPage' ]);
+    $app->post('/admin/login', [ AuthController::class, 'login' ]);
+
     // Admin panel routes
     $app->group('/admin', function (RouteCollectorProxy $group) {
-        $group->get('/', [PageController::class, 'adminPage']);
+        $group->get('/', [ PageController::class, 'adminPage' ]);
     })->add(new AuthMiddleware());
 };

@@ -42,6 +42,14 @@ class AuthModel extends AbstractModel
         return (int) $this->db->lastInsertId();
     }
 
+    public function getUserByName(string $userName)
+    {
+        return $this->db->fetch(
+            'SELECT * FROM auth WHERE username=:username',
+            [ ':username' => $userName ]
+        );
+    }
+
     public function getAllUsers(): array
     {
         return $this->db->fetchAll(

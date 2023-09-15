@@ -81,3 +81,8 @@ body {
 .login-container .login-form form input[type="submit"]:hover {
     background-color: var(--accent);
 }
+form label.error,
+form .errors {
+    color: var(--error);
+    text-align: center;
+}

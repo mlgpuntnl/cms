@@ -45,10 +45,29 @@ class AuthController extends AbstractController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        $response->getBody()->write(
-            $this->templates->render('admin/login')
-        );
-        return $response;
+        return $this->renderPage('admin/login');
+    }
+
+    public function login(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        array $args
+    ): ResponseInterface {
+        $body = $request->getParsedBody();
+        if (!$body['username'] || !$body['password']) {
+            return $this->toJson([ 'error' => 'Missing post fields'], 400);
+        }
+        $user = $this->model->getUserByName($body['username']);
+        if (!$user || !password_verify($body['password'], $user->pwd)) {
+            return $this->toJson([ 'error' => 'Login incorrect'], 401);
+        }
+        $_SESSION['logged_in'] = true;
+        $_SESSION['user_level'] = $user->user_level;
+        $_SESSION['username'] = $user->username;
+        return $this->toJson([
+            'success' => true,
+            'goto' => '/admin/'
+        ]);
     }
 
     private function hashPassword(string $password): string

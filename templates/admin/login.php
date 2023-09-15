@@ -3,10 +3,11 @@
 <?php $this->start('main-content'); ?>
     <div class="login-container">
         <div class="login-form">
-            <form>
-                <input type="text" placeholder="Username">
-                <input type="password" placeholder="Password">
+            <form id="login-form">
+                <input type="text" name="username" placeholder="Username" data-rule-required="true">
+                <input type="password" name="password" placeholder="Password" data-rule-required="true">
                 <input type="submit" value="Login">
+                <div class="errors"></div>
             </form>
         </div>
     </div>
