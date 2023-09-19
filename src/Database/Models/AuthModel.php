@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Timo\Cms\Models;
+namespace Timo\Cms\Database\Models;
 
 use Timo\Cms\Enums\UserLevel;
 

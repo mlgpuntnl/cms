@@ -13,7 +13,7 @@ use Timo\Cms\Controllers\AuthController;
 use Timo\Cms\Controllers\PageController;
 use Timo\Cms\Enums\AppEnv;
 use Timo\Cms\Extensions\Plates\EntrypointResolver;
-use Timo\Cms\Models\AuthModel;
+use Timo\Cms\Database\Models\AuthModel;
 use Timo\Cms\Util\Config;
 use Timo\Cms\Util\Database;
 use Timo\Cms\Util\DatabaseInstall;

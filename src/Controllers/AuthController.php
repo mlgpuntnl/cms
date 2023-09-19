@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Timo\Cms\Cli\Commands\CreateUserCommand;
 use Timo\Cms\Enums\UserLevel;
-use Timo\Cms\Models\AuthModel;
+use Timo\Cms\Database\Models\AuthModel;
 
 class AuthController extends AbstractController
 {
