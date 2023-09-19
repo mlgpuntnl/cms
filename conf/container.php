@@ -17,6 +17,7 @@ use Timo\Cms\Database\Models\AuthModel;
 use Timo\Cms\Util\Config;
 use Timo\Cms\Database\Database;
 use Timo\Cms\Database\DatabaseInstall;
+use Timo\Cms\Database\Entities\Auth;
 
 $containerBuilder = new ContainerBuilder();
 $containerBuilder->addDefinitions([
@@ -62,7 +63,7 @@ $containerBuilder->addDefinitions([
         return $engine;
     },
     AuthModel::class => function (ContainerInterface $c) {
-        return new AuthModel($c->get(Database::class));
+        return new AuthModel($c->get(Database::class), Auth::class);
     },
     PageController::class => function (ContainerInterface $c) {
         return new PageController($c->get(Engine::class));
