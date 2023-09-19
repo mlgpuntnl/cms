@@ -15,8 +15,8 @@ use Timo\Cms\Enums\AppEnv;
 use Timo\Cms\Extensions\Plates\EntrypointResolver;
 use Timo\Cms\Database\Models\AuthModel;
 use Timo\Cms\Util\Config;
-use Timo\Cms\Util\Database;
-use Timo\Cms\Util\DatabaseInstall;
+use Timo\Cms\Database\Database;
+use Timo\Cms\Database\DatabaseInstall;
 
 $containerBuilder = new ContainerBuilder();
 $containerBuilder->addDefinitions([

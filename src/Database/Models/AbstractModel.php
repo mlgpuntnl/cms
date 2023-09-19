@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Timo\Cms\Database\Models;
 
-use Timo\Cms\Util\Database;
+use Timo\Cms\Database\Database;
 
 abstract class AbstractModel
 {

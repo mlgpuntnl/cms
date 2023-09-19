@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Timo\Cms\Util;
+namespace Timo\Cms\Database;
 
 class DatabaseInstall
 {

@@ -10,7 +10,7 @@ use Timo\Cms\Cli\Commands\ReinstallDatabaseCommand;
 use Timo\Cms\Cli\Commands\TestCommand;
 use Timo\Cms\Controllers\AuthController;
 use Timo\Cms\Controllers\PageController;
-use Timo\Cms\Util\DatabaseInstall;
+use Timo\Cms\Database\DatabaseInstall;
 
 return function (EventDispatcher $e, ContainerInterface $c) {
     $e->subscribeTo(TestCommand::class, function (TestCommand $command) use ($c) {
