@@ -1,3 +1,12 @@
+<?php
+
+use League\Plates\Template\Template;
+
+/**
+ * @var Template $this
+ */
+
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,6 +21,18 @@
     <title><?= $title ?></title>
 </head>
 <body>
-    <?= $this->section('main-content') ?>
+    <div class="content">
+        <?php if ($this->section('sidebar')) : ?>
+            <?= $this->section('sidebar') ?>
+        <?php else : ?>
+            <?= $this->fetch('admin/partials/default-sidebar', compact('currentPage')) ?>
+        <?php endif; ?>
+        <main class="page-content">
+            <?= $this->section('main-content') ?>
+        </main>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
