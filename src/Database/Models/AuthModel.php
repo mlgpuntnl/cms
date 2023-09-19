@@ -52,8 +52,8 @@ class AuthModel extends AbstractModel
 
     public function getAllUsers(): array
     {
-        return $this->db->fetchAll(
+        return $this->db->fetch(
             'SELECT id, username, user_level FROM auth'
-        );
+        )->toObjects();
     }
 }

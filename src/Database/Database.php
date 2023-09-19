@@ -18,18 +18,11 @@ class Database
         $this->conn = new PDO($dsn, $username, $password);
     }
 
-    public function fetch(string $query, array $parameters = [], int $fetchMode = Database::DEFAULT_FETCHMODE): mixed
+    public function fetch(string $query, array $parameters = []): FetchResult
     {
         $stmt = $this->prepare($query);
         $stmt->execute($parameters);
-        return $stmt->fetch($fetchMode);
-    }
-
-    public function fetchAll(string $query, array $parameters = [], int $fetchMode = Database::DEFAULT_FETCHMODE): array
-    {
-        $stmt = $this->prepare($query);
-        $stmt->execute($parameters);
-        return $stmt->fetchAll($fetchMode);
+        return new FetchResult($stmt);
     }
 
     public function execute(string $query, array $parameters = []): bool
