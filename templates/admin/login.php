@@ -1,9 +1,5 @@
 <?php $this->layout('admin/wrapper', ['title' => 'Login']) ?>
 
-<?php $this->start('sidebar'); ?>
-<!--  -->
-<?php $this->stop(); ?>
-
 <?php $this->start('main-content'); ?>
     <div class="login-container">
         <div class="login-form">

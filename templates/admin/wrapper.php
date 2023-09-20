@@ -22,14 +22,7 @@ use League\Plates\Template\Template;
 </head>
 <body>
     <div class="content">
-        <?php if ($this->section('sidebar')) : ?>
-            <?= $this->section('sidebar') ?>
-        <?php else : ?>
-            <?= $this->fetch('admin/partials/default-sidebar', compact('currentPage')) ?>
-        <?php endif; ?>
-        <main class="page-content">
-            <?= $this->section('main-content') ?>
-        </main>
+        <?= $this->section('main-content') ?>
     </div>
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
