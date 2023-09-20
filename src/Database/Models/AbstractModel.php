@@ -56,6 +56,12 @@ abstract class AbstractModel
         )->toObject($this->entityClassName);
     }
 
+    public function getAll(): array
+    {
+        $table = $this->entityClassName::$table;
+        return $this->db->fetch("SELECT * FROM $table")->toObjects($this->entityClassName);
+    }
+
     public function findOne(string $columnName, mixed $value): Entity
     {
         $table = $this->entityClassName::$table;

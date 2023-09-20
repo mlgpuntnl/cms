@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Timo\Cms\Database\Models;
 
+use Timo\Cms\Database\Entities\Auth;
 use Timo\Cms\Enums\UserLevel;
 
 class AuthModel extends AbstractModel
@@ -42,18 +43,13 @@ class AuthModel extends AbstractModel
         return (int) $this->db->lastInsertId();
     }
 
-    public function getUserByName(string $userName)
+    public function getUserByName(string $userName): Auth
     {
-        return $this->db->fetch(
-            'SELECT * FROM auth WHERE username=:username',
-            [ ':username' => $userName ]
-        );
+        return $this->findOne('username', $userName);
     }
 
     public function getAllUsers(): array
     {
-        return $this->db->fetch(
-            'SELECT id, username, user_level FROM auth'
-        )->toObjects();
+        return $this->getAll();
     }
 }

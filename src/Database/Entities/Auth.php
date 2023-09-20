@@ -11,5 +11,5 @@ class Auth extends Entity
     public ?int $id = null;
     public string $username;
     public string $pwd;
-    public string $auth_level;
+    public string $user_level;
 }
